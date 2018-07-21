@@ -19,8 +19,13 @@ class ProdectResource extends JsonResource
         'name' => $this->name,
         'descrption' => $this->details,
         'price' => $this->price,
-        'stock' => $this->stock,
-        'descount' => $this->descount
+        'stock' => $this->stock == 0 ? 'Out of Stock' : $this->stock,
+        'descount' => $this->descount,
+        'totalPrice' => round((1 - ($this->descount/100) ) * $this->price,2) ,
+        'rating' => $this->reviews->count() > 0 ? round($this->reviews->sum('star')/$this->reviews->count(),2) : 'No Rating yet' ,
+        'href' => [
+            'reviews' => route('reviews.index',$this->id)
+        ]
 
 
        ];
