@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Prodect;
 use Illuminate\Http\Request;
+use App\Http\Resources\Prodect\ProdectResource;
 
 class ProdectController extends Controller
 {
@@ -14,7 +15,7 @@ class ProdectController extends Controller
      */
     public function index()
     {
-        //
+        return Prodect::all();
     }
 
     /**
@@ -46,7 +47,7 @@ class ProdectController extends Controller
      */
     public function show(Prodect $prodect)
     {
-        //
+        return new ProdectResource($prodect);
     }
 
     /**
