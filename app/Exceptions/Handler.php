@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
                                     , Response::HTTP_NOT_FOUND);
             }
             
-            if($exception instanceof ModelNotFoundException)
+            if($exception instanceof NotFoundException)
             {
                 return response()->json(['errors' => 'Route not correct']
                                             , Response::HTTP_NOT_FOUND);
