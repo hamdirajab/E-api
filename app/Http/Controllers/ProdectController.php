@@ -113,6 +113,9 @@ class ProdectController extends Controller
      */
     public function destroy(Prodect $prodect)
     {
-        //
+
+        $prodect->delete();
+
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
