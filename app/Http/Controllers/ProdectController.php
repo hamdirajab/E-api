@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Prodect\ProdectResource;
 use App\Http\Resources\Prodect\ProdectCollection;
 use Symfony\Component\HttpFoundation\Response;
+use App\Exceptions\ProdectNotBelongsToUser;
+use Auth;
 
 class ProdectController extends Controller
 {
@@ -95,6 +97,8 @@ class ProdectController extends Controller
      */
     public function update(Request $request, Prodect $prodect)
     {
+        $this->ProdectUserCheck($prodect);
+
         $request['details'] = $request->descrption;
         unset($request['descrption']);
 
@@ -114,8 +118,19 @@ class ProdectController extends Controller
     public function destroy(Prodect $prodect)
     {
 
+        $this->ProdectUserCheck($prodect);
+
         $prodect->delete();
 
         return response(null,Response::HTTP_NO_CONTENT);
     }
+
+    public function ProdectUserCheck($prodect)
+    {
+        if (Auth::id() !== $prodect->user_id ) {
+            
+            throw new ProdectNotBelongsToUser;
+        }
+    }
+
 }
