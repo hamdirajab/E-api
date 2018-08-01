@@ -6,6 +6,7 @@ use App\Model\Review;
 use App\Model\Prodect;
 use Illuminate\Http\Request;
 use App\Http\Resources\ReviewResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReviewController extends Controller
 {
@@ -35,10 +36,14 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request , Prodect $prodect)
     {
-        //
-    }
+              
+        $review = new Review($rquset->all());
+        $prodect->review()->save($review);
+        return response([
+            'data' => new ReviewResource($review)
+            ] , Response::HTTP_CREATED);        }
 
     /**
      * Display the specified resource.
@@ -48,7 +53,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        //
+  
     }
 
     /**
@@ -69,9 +74,15 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request,Prodect $prodects,Review $review)
     {
-        //
+        
+        $review->update($request->all()); //$prodects;
+
+         return response([
+            'data' => new ReviewResource($review)
+            ] , Response::HTTP_CREATED);
+
     }
 
     /**
@@ -80,8 +91,9 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Prodect $prodects,Review $review)
     {
-        //
+        $review->delete();
+        return response(null , Response::HTTP_NO_CONTENT);
     }
 }
